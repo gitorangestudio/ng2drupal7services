@@ -12,7 +12,7 @@ export class UserService {
   }
 
   createUser(user): Observable<any>{
-    return this.mainService.post('/api/user/', user).map(res => res.json()).catch(err => Observable.throw(err));
+    return this.mainService.post('/api/user/register', user).map(res => res.json()).catch(err => Observable.throw(err));
   }
 
   deleteUser(userId): Observable<any>{

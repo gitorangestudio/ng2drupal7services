@@ -18,7 +18,7 @@ var UserService = (function () {
         return this.mainService.get('/api/user/' + userId).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     UserService.prototype.createUser = function (user) {
-        return this.mainService.post('/api/user/', user).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.post('/api/user/register', user).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     UserService.prototype.deleteUser = function (userId) {
         return this.mainService.delete('/api/user/' + userId).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });

@@ -1,10 +1,12 @@
-export class Vocabulary {
+export class Taxonomy {
   name: string;
-  machine_name: string;
+  vid: number;
   description: string;
+  format: string;
   weight: number;
 
   constructor() {
     this.weight = 0;
+    this.format = 'filtered_html';
   }
 }
