@@ -9,21 +9,32 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
+import { CookieService } from 'angular2-cookie/core';
 var MainService = (function () {
-    function MainService(http) {
+    function MainService(http, cookieService) {
         this.http = http;
-        this.serviceURL = "http://localhost:81/api";
-        this.headers = new Headers({
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-        });
+        this.cookieService = cookieService;
+        this.serviceURL = "http://localhost:81";
     }
     MainService.prototype.getURL = function (url) {
         return this.serviceURL + url;
     };
     MainService.prototype.getOptions = function (options) {
-        var op = { Headers: this.headers };
-        return Object.assign(op, options);
+        var headers = new Headers({
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        });
+        var token = this.getToken();
+        var session = this.getSession();
+        if (session && token) {
+            headers.append('Cookie', session);
+            headers.append('X-CSRF-Token', token);
+        }
+        var basicOptions = { withCredentials: true, headers: headers };
+        if (options) {
+            return Object.assign(basicOptions, options);
+        }
+        return basicOptions;
     };
     MainService.prototype.get = function (endpoint, options) {
         var url = this.getURL(endpoint);
@@ -38,18 +49,42 @@ var MainService = (function () {
     MainService.prototype.put = function (endpoint, body, options) {
         var url = this.getURL(endpoint);
         var op = this.getOptions(options);
-        return this.http.put(url, body, op);
+        return this.http.put(url, body, options);
     };
     MainService.prototype.delete = function (endpoint, options) {
         var url = this.getURL(endpoint);
         var op = this.getOptions(options);
         return this.http.delete(url, op);
     };
+    MainService.prototype.saveCookies = function (token, session_name, sessid) {
+        this.cookieService.put('sessid', sessid);
+        this.cookieService.put('session_name', session_name);
+        this.cookieService.put('token', token);
+    };
+    MainService.prototype.removeCookies = function () {
+        this.cookieService.remove('sessid');
+        this.cookieService.remove('session_name');
+        this.cookieService.remove('token');
+    };
+    MainService.prototype.getToken = function () {
+        var token = this.cookieService.get('token');
+        if (token) {
+            return token;
+        }
+        return null;
+    };
+    MainService.prototype.getSession = function () {
+        var session = this.cookieService.get('session_name') + '=' + this.cookieService.get('sessid');
+        if (session) {
+            return session;
+        }
+        return null;
+    };
     return MainService;
 }());
 MainService = __decorate([
     Injectable(),
-    __metadata("design:paramtypes", [Http])
+    __metadata("design:paramtypes", [Http, CookieService])
 ], MainService);
 export { MainService };
 //# sourceMappingURL=../../../../../src/app/d7services/main/main.service.js.map

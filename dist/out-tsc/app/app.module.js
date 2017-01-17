@@ -11,6 +11,7 @@ import { HttpModule } from '@angular/http';
 import { NodeService } from './d7services/node/node.service';
 import { MainService } from './d7services/main/main.service';
 import { AppComponent } from './app.component';
+import { CookieService } from 'angular2-cookie/core';
 var AppModule = (function () {
     function AppModule() {
     }
@@ -26,7 +27,7 @@ AppModule = __decorate([
             FormsModule,
             HttpModule
         ],
-        providers: [MainService, NodeService],
+        providers: [MainService, NodeService, CookieService],
         bootstrap: [AppComponent]
     })
 ], AppModule);

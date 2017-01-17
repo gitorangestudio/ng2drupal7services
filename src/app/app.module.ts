@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { NodeService } from './d7services/node/node.service';
 import { MainService } from './d7services/main/main.service';
 import { AppComponent } from './app.component';
+import { CookieService } from 'angular2-cookie/core';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,7 @@ import { AppComponent } from './app.component';
     FormsModule,
     HttpModule
   ],
-  providers: [MainService, NodeService],
+  providers: [MainService, NodeService, CookieService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

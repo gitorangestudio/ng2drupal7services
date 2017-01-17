@@ -1,20 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptionsArgs, Response, Headers } from '@angular/http';
+import { Http, RequestOptionsArgs, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from "rxjs";
+import { CookieService } from 'angular2-cookie/core';
 
 @Injectable()
 export class MainService {
 
-  private serviceURL: string = "http://localhost:81/api";
-  private headers: Headers = new Headers(
-  {
+  private serviceURL: string = "http://localhost:81";
 
-  	"Accept": "application/json",
-  	"Content-Type": "application/json",
-  }
-  );
-
-  constructor(private http: Http) { }
+  constructor(private http: Http, private cookieService: CookieService) { }
 
  	getURL(url: string): string {
 
@@ -22,8 +16,24 @@ export class MainService {
  	}
 
   getOptions(options: RequestOptionsArgs): RequestOptionsArgs {
- 		let op = {Headers: this.headers};
- 		return Object.assign(op, options);
+
+    var headers: Headers = new Headers({
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+    });
+
+    var token = this.getToken();
+    var session = this.getSession();
+    if(session && token){
+        headers.append('Cookie', session);
+        headers.append('X-CSRF-Token', token);
+    }
+
+    var basicOptions = {withCredentials: true, headers: headers};
+    if(options){
+      return Object.assign(basicOptions, options);
+    }
+ 		return basicOptions;
  	}
 
 
@@ -34,7 +44,7 @@ export class MainService {
   	return this.http.get(url, op);
   }
 
-  post(endpoint: string, body: any, options?: RequestOptionsArgs): Observable<Response>{
+  post(endpoint: string, body?: any, options?: RequestOptionsArgs): Observable<Response>{
 
   	let url = this.getURL(endpoint);
   	let op = this.getOptions(options);
@@ -45,7 +55,7 @@ export class MainService {
 
   	let url = this.getURL(endpoint);
   	let op = this.getOptions(options);
-  	return this.http.put(url, body, op);
+  	return this.http.put(url, body, options);
   }
 
   delete(endpoint: string, options?: RequestOptionsArgs): Observable<Response>{
@@ -55,6 +65,33 @@ export class MainService {
   	return this.http.delete(url, op);
   }
 
+  saveCookies(token: string, session_name: string, sessid: string){
+    this.cookieService.put('sessid', sessid);
+    this.cookieService.put('session_name', session_name);
+    this.cookieService.put('token', token);
+  }
+
+  removeCookies(){
+    this.cookieService.remove('sessid');
+    this.cookieService.remove('session_name');
+    this.cookieService.remove('token');
+  }
+
+  getToken(): string{
+    var token = this.cookieService.get('token');
+    if(token){
+      return token;
+    }
+    return null;
+  }
+
+  getSession(): string{
+    var session = this.cookieService.get('session_name') + '=' + this.cookieService.get('sessid');
+    if(session){
+      return session;
+    }
+    return null;
+  }
 }
 
 /*

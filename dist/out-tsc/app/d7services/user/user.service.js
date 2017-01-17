@@ -15,16 +15,51 @@ var UserService = (function () {
         this.mainService = mainService;
     }
     UserService.prototype.getUser = function (userId) {
-        return this.mainService.get('/user/' + userId).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.get('/api/user/' + userId).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     UserService.prototype.createUser = function (user) {
-        return this.mainService.post('/user/', user).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.post('/api/user/', user).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     UserService.prototype.deleteUser = function (userId) {
-        return this.mainService.delete('/user/' + userId).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.delete('/api/user/' + userId).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     UserService.prototype.updateUser = function (user) {
-        return this.mainService.put('/user/' + user.uid, user).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.put('/api/user/' + user.uid, user).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
+    };
+    UserService.prototype.login = function (username, password) {
+        var _this = this;
+        return this.mainService.get('/services/session/token').map(function (response) { return response.text(); }).subscribe(function (token) {
+            var body = { "name": username, "pass": password };
+            _this.mainService.post('/api/user/login', body).map(function (response) { return response.json(); }).subscribe(function (user) {
+                console.log("login ok", user);
+                _this.mainService.saveCookies(user.token, user.session_name, user.sessid);
+            }, function (err) { console.log(err); });
+        });
+    };
+    UserService.prototype.logout = function () {
+        var _this = this;
+        this.mainService.post('/api/user/logout', null).map(function (response) { return response.json(); }).subscribe(function (data) {
+            _this.mainService.removeCookies();
+            console.log('logged out');
+        }, function (err) {
+            console.log(err);
+        });
+    };
+    UserService.prototype.getStatus = function (session, token) {
+        return this.mainService.post('/api/system/connect', null).map(function (response) { return response.json(); });
+    };
+    UserService.prototype.isLogedIn = function () {
+        var token = this.mainService.getToken();
+        var session = this.mainService.getSession();
+        if (session && token) {
+            this.getStatus(session, token).subscribe(function (data) {
+                console.log(data);
+                return true;
+            });
+        }
+        else {
+            return false;
+        }
     };
     return UserService;
 }());
@@ -33,10 +68,4 @@ UserService = __decorate([
     __metadata("design:paramtypes", [MainService])
 ], UserService);
 export { UserService };
-var User = (function () {
-    function User() {
-    }
-    return User;
-}());
-export { User };
 //# sourceMappingURL=../../../../../src/app/d7services/user/user.service.js.map

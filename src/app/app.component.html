@@ -5,3 +5,10 @@
 <div *ngFor="let node of nodes">
   <h4>{{node.title}}</h4>
 </div>
+
+<button (click)="customLogin($event)">Login</button>
+<button (click)="customLogout($event)">Logout</button>
+<button (click)="status($event)">Get Status</button>
+<button (click)="getUser($event)">Get User</button>
+<button (click)="updateTheNode($event)">Update node/auth</button>
+<button (click)="createTheNode($event)">Create node/auth</button>

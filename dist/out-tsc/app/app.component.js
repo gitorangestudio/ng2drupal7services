@@ -10,20 +10,68 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Component } from '@angular/core';
 import { NodeService } from './d7services/node/node.service';
 import { UserService } from './d7services/user/user.service';
-import { User } from './d7services/user/user.service';
+import { MainService } from './d7services/main/main.service';
 var AppComponent = (function () {
-    function AppComponent(nodeService, userService) {
+    function AppComponent(nodeService, userService, mainService) {
         this.nodeService = nodeService;
         this.userService = userService;
+        this.mainService = mainService;
         this.nodes = [];
         this.title = 'app works!';
     }
     AppComponent.prototype.ngOnInit = function () {
-        var user = new User();
-        user.name = "Abdo2";
-        user.mail = "test@test2.com";
-        user.pass = 'test';
-        user.status = true;
+        var node = {
+            "nid": 4,
+            "title": "Edited Title 1",
+            "body": {
+                "und": [
+                    { "value": "Edited Body Value 1" }
+                ]
+            },
+        };
+    };
+    AppComponent.prototype.customLogin = function (event) {
+        this.userService.login('root', 'root');
+    };
+    AppComponent.prototype.customLogout = function (event) {
+        this.userService.logout();
+    };
+    AppComponent.prototype.status = function (event) {
+        var status = this.userService.isLogedIn();
+        console.log(status);
+    };
+    AppComponent.prototype.getUser = function (event) {
+        this.userService.getUser(1).subscribe(function (data) {
+            console.log(data);
+        });
+    };
+    AppComponent.prototype.updateTheNode = function (event) {
+        var node = {
+            "nid": 4,
+            "title": "Edited Title 2",
+            "body": {
+                "und": [
+                    { "value": "Edited Body Value 1" }
+                ]
+            },
+        };
+        this.nodeService.UpdateNode(node).subscribe(function (data) {
+            console.log(data);
+        });
+    };
+    AppComponent.prototype.createTheNode = function (event) {
+        var node = {
+            "title": "New noed with auth",
+            "type": "article",
+            "body": {
+                "und": [
+                    { "value": "test body" }
+                ]
+            },
+        };
+        this.nodeService.createNode(node).subscribe(function (data) {
+            console.log(data);
+        });
     };
     return AppComponent;
 }());
@@ -34,7 +82,7 @@ AppComponent = __decorate([
         styleUrls: ['./app.component.css'],
         providers: [NodeService, UserService]
     }),
-    __metadata("design:paramtypes", [NodeService, UserService])
+    __metadata("design:paramtypes", [NodeService, UserService, MainService])
 ], AppComponent);
 export { AppComponent };
 //# sourceMappingURL=../../../src/app/app.component.js.map
