@@ -19,8 +19,9 @@ export class FileService {
     return this.mainService.get('/api/file?parameters[uid]=' + uid).map(res => res.json()).catch(err => Observable.throw(err));
   }
 
-  createFile(file): Observable<any>{
+  public SendCreatedFile(file): Observable<any>{
     return this.mainService.post('/api/file', file).map(res => res.json()).catch(err => Observable.throw(err));
+
   }
 
   editFile(file): Observable<any>{

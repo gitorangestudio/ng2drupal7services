@@ -3,24 +3,25 @@ import { NodeService } from './d7services/node/node.service';
 import { UserService } from './d7services/user/user.service';
 import { MainService } from './d7services/main/main.service';
 import { User } from './d7services/user/user';
+import { FileService } from './d7services/file/file.service';
+import { File } from './d7services/file/file';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [NodeService, UserService]
+  providers: [NodeService, UserService, FileService]
 })
 export class AppComponent implements OnInit{
 
   nodes = [];
 
-  constructor(private nodeService: NodeService, private userService: UserService, private mainService: MainService) {}
+  constructor(private nodeService: NodeService, private userService: UserService, private mainService: MainService, private fileService: FileService) {}
   title = 'app works!';
 
   ngOnInit() {
 
 
-    // Get nodes
     // this.nodeService.getPosts().subscribe(res => {
     //   this.nodes = res;
 		// 	console.log(res);
@@ -104,10 +105,10 @@ export class AppComponent implements OnInit{
     this.userService.login('root', 'root');
   }
 
+
   customLogout(event){
     this.userService.logout();
   }
-
 
   status (event){
     var status = this.userService.isLogedIn();
@@ -150,4 +151,20 @@ export class AppComponent implements OnInit{
         console.log(data);
       });
     }
+
+    uploadFile(event) {
+
+    
+      var file: File = new File();
+      file.file = event.target.files[0];
+      file.uid = 1;
+      file.filename = 'test3.png';
+      file.convertFile();
+      // this.fileService.SendCreatedFile(file).subscribe(res => {
+      //   console.log(res.fid);
+      // });
+
+    }
+
+        // Get nodes
 }

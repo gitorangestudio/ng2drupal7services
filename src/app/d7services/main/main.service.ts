@@ -55,7 +55,7 @@ export class MainService {
 
   	let url = this.getURL(endpoint);
   	let op = this.getOptions(options);
-  	return this.http.put(url, body, options);
+  	return this.http.put(url, body, op);
   }
 
   delete(endpoint: string, options?: RequestOptionsArgs): Observable<Response>{

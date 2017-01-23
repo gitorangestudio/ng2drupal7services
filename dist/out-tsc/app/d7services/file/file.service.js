@@ -23,7 +23,7 @@ var FileService = (function () {
     FileService.prototype.getUserFiles = function (uid) {
         return this.mainService.get('/api/file?parameters[uid]=' + uid).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
-    FileService.prototype.createFile = function (file) {
+    FileService.prototype.SendCreatedFile = function (file) {
         return this.mainService.post('/api/file', file).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     FileService.prototype.editFile = function (file) {

@@ -11,11 +11,14 @@ import { Component } from '@angular/core';
 import { NodeService } from './d7services/node/node.service';
 import { UserService } from './d7services/user/user.service';
 import { MainService } from './d7services/main/main.service';
+import { FileService } from './d7services/file/file.service';
+import { File } from './d7services/file/file';
 var AppComponent = (function () {
-    function AppComponent(nodeService, userService, mainService) {
+    function AppComponent(nodeService, userService, mainService, fileService) {
         this.nodeService = nodeService;
         this.userService = userService;
         this.mainService = mainService;
+        this.fileService = fileService;
         this.nodes = [];
         this.title = 'app works!';
     }
@@ -73,6 +76,13 @@ var AppComponent = (function () {
             console.log(data);
         });
     };
+    AppComponent.prototype.uploadFile = function (event) {
+        var file = new File();
+        file.file = event.target.files[0];
+        file.uid = 1;
+        file.filename = 'test3.png';
+        file.convertFile();
+    };
     return AppComponent;
 }());
 AppComponent = __decorate([
@@ -80,9 +90,9 @@ AppComponent = __decorate([
         selector: 'app-root',
         templateUrl: './app.component.html',
         styleUrls: ['./app.component.css'],
-        providers: [NodeService, UserService]
+        providers: [NodeService, UserService, FileService]
     }),
-    __metadata("design:paramtypes", [NodeService, UserService, MainService])
+    __metadata("design:paramtypes", [NodeService, UserService, MainService, FileService])
 ], AppComponent);
 export { AppComponent };
 //# sourceMappingURL=../../../src/app/app.component.js.map

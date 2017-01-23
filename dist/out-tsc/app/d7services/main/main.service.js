@@ -49,7 +49,7 @@ var MainService = (function () {
     MainService.prototype.put = function (endpoint, body, options) {
         var url = this.getURL(endpoint);
         var op = this.getOptions(options);
-        return this.http.put(url, body, options);
+        return this.http.put(url, body, op);
     };
     MainService.prototype.delete = function (endpoint, options) {
         var url = this.getURL(endpoint);
