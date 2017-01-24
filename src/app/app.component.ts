@@ -102,7 +102,7 @@ export class AppComponent implements OnInit{
   }
 
   customLogin(event){
-    this.userService.login('root', 'root');
+    this.userService.login('root', 'Orange_1234');
   }
 
 
@@ -153,16 +153,20 @@ export class AppComponent implements OnInit{
     }
 
     uploadFile(event) {
-
-    
       var file: File = new File();
       file.file = event.target.files[0];
       file.uid = 1;
-      file.filename = 'test3.png';
-      file.convertFile();
-      // this.fileService.SendCreatedFile(file).subscribe(res => {
-      //   console.log(res.fid);
-      // });
+      file.filename = 'test4.png';
+      file.convertFile().subscribe(data => {
+        console.log('start');
+
+        console.log(file.file);
+        console.log('end');
+        this.fileService.SendCreatedFile(file).subscribe(res => {
+          console.log(res.fid);
+        });
+      });
+
 
     }
 

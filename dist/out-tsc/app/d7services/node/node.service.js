@@ -10,11 +10,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 import { MainService } from '../main/main.service';
-import { CookieService } from 'angular2-cookie/core';
 var NodeService = (function () {
-    function NodeService(mainService, cookieService) {
+    function NodeService(mainService) {
         this.mainService = mainService;
-        this.cookieService = cookieService;
     }
     NodeService.prototype.getPosts = function () {
         return this.mainService.get('/api/node').map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
@@ -32,7 +30,7 @@ var NodeService = (function () {
 }());
 NodeService = __decorate([
     Injectable(),
-    __metadata("design:paramtypes", [MainService, CookieService])
+    __metadata("design:paramtypes", [MainService])
 ], NodeService);
 export { NodeService };
 //# sourceMappingURL=../../../../../src/app/d7services/node/node.service.js.map

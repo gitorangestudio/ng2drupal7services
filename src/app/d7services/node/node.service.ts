@@ -7,7 +7,7 @@ import { CookieService } from 'angular2-cookie/core';
 @Injectable()
 export class NodeService {
 
-  constructor(private mainService: MainService, private cookieService: CookieService) { }
+  constructor(private mainService: MainService) { }
 
   getPosts(): Observable<any>{
   	return this.mainService.get('/api/node').map(res => res.json()).catch(err => Observable.throw(err));

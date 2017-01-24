@@ -34,7 +34,7 @@ var AppComponent = (function () {
         };
     };
     AppComponent.prototype.customLogin = function (event) {
-        this.userService.login('root', 'root');
+        this.userService.login('root', 'Orange_1234');
     };
     AppComponent.prototype.customLogout = function (event) {
         this.userService.logout();
@@ -77,11 +77,19 @@ var AppComponent = (function () {
         });
     };
     AppComponent.prototype.uploadFile = function (event) {
+        var _this = this;
         var file = new File();
         file.file = event.target.files[0];
         file.uid = 1;
-        file.filename = 'test3.png';
-        file.convertFile();
+        file.filename = 'test4.png';
+        file.convertFile().subscribe(function (data) {
+            console.log('start');
+            console.log(file.file);
+            console.log('end');
+            _this.fileService.SendCreatedFile(file).subscribe(function (res) {
+                console.log(res.fid);
+            });
+        });
     };
     return AppComponent;
 }());

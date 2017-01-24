@@ -3,21 +3,20 @@ var File = (function () {
     function File() {
     }
     File.prototype.convertFile = function () {
-        console.log('run');
+        console.log('start convertFile function');
         var fileObj = this;
-        if (!fileObj.file) {
-            return '';
-        }
-        var myReader = new FileReader();
-        Observable.create(function (observer) {
+        var obs = new Observable(function (observer) {
+            console.log('run');
+            var myReader = new FileReader();
             myReader.onloadend = function () {
+                console.log('onloadend');
                 fileObj.file = btoa(myReader.result);
-                console.log('File loaded succesfully.');
-                observer.next("File loaded");
+                observer.next();
                 observer.complete();
             };
+            myReader.readAsBinaryString(fileObj.file);
         });
-        myReader.readAsBinaryString(fileObj.file);
+        return obs;
     };
     return File;
 }());
