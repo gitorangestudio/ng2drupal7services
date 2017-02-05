@@ -34,7 +34,18 @@ var AppComponent = (function () {
         };
     };
     AppComponent.prototype.customLogin = function (event) {
-        this.userService.login('root', 'root');
+        this.userService.login('root', 'root').subscribe(function (response) {
+            response.subscribe(function (res) {
+            }, function (err) {
+                if (err.status == 406) {
+                }
+                else {
+                    console.log(err);
+                }
+            });
+        }, function (err) {
+            console.log(err);
+        });
     };
     AppComponent.prototype.customLogout = function (event) {
         this.userService.logout();
@@ -75,6 +86,7 @@ var AppComponent = (function () {
         };
         this.nodeService.createNode(node).subscribe(function (data) {
             console.log(data);
+        }, function (err) {
         });
     };
     AppComponent.prototype.uploadFile = function (event) {

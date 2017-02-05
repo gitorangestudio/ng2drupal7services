@@ -28,12 +28,14 @@ var UserService = (function () {
     };
     UserService.prototype.login = function (username, password) {
         var _this = this;
-        return this.mainService.get('/services/session/token').map(function (response) { return response.text(); }).subscribe(function (token) {
+        return this.mainService.get('/services/session/token').map(function (response) { return response.text(); }).map(function (token) {
+            _this.mainService.saveCookies(token, null, null);
             var body = { "name": username, "pass": password };
-            _this.mainService.post('/api/user/login', body).map(function (response) { return response.json(); }).subscribe(function (user) {
+            return _this.mainService.post('/api/user/login', body).map(function (response) { return response.json(); }).map(function (user) {
                 console.log("login ok", user);
                 _this.mainService.saveCookies(user.token, user.session_name, user.sessid);
-            }, function (err) { console.log(err); });
+                return user;
+            });
         });
     };
     UserService.prototype.resetPassword = function (nameOrEmail) {

@@ -103,8 +103,21 @@ export class AppComponent implements OnInit{
 
   }
 
+
   customLogin(event){
-    this.userService.login('root', 'root');
+      this.userService.login('root', 'root').subscribe(response => {
+        response.subscribe(res =>{
+        }, err => {
+          if(err.status == 406){
+
+          }
+          else{
+            console.log(err);
+          }
+        });
+      }, err => {
+        console.log(err);
+      });
   }
 
 
@@ -153,6 +166,8 @@ export class AppComponent implements OnInit{
     	};
       this.nodeService.createNode(node).subscribe(data =>{
         console.log(data);
+      }, err => {
+
       });
     }
 

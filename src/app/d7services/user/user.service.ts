@@ -23,15 +23,16 @@ export class UserService {
     return this.mainService.put('/api/user/' + user.uid, user).map(res => res.json()).catch(err => Observable.throw(err));
   }
 
-  login(username, password){
-    return this.mainService.get('/services/session/token').map(response => response.text()).subscribe(
-      token => {
-        var body = {"name": username, "pass": password};
-        this.mainService.post('/api/user/login', body).map(response => response.json()).subscribe(user => {
-          console.log("login ok", user);
-          this.mainService.saveCookies(user.token, user.session_name, user.sessid);
-        }, err => { console.log(err); });
+  login(username, password): Observable<any>{
+    return this.mainService.get('/services/session/token').map(response => response.text()).map(token => {
+      this.mainService.saveCookies(token, null, null);
+      var body = {"name": username, "pass": password};
+      return this.mainService.post('/api/user/login', body).map(response => response.json()).map(user => {
+        console.log("login ok", user);
+        this.mainService.saveCookies(user.token, user.session_name, user.sessid);
+        return user;
       });
+    });
   }
 
   resetPassword(nameOrEmail): Observable<any>{
