@@ -6,7 +6,7 @@ import { CookieService } from 'angular2-cookie/core';
 @Injectable()
 export class MainService {
 
-  private serviceURL: string = "http://localhost:100";
+  private serviceURL: string = "http://localhost:81";
 
   constructor(private http: Http, private cookieService: CookieService) { }
 

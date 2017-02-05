@@ -34,6 +34,10 @@ export class UserService {
       });
   }
 
+  resetPassword(nameOrEmail): Observable<any>{
+    var body = {"name": nameOrEmail};
+    return this.mainService.post('/api/user/request_new_password', body).map(response => response.json());
+  }
 
   logout(): void{
     this.mainService.post('/api/user/logout', null).map(response => response.json()).subscribe(data => {
@@ -49,18 +53,28 @@ export class UserService {
     return this.mainService.post('/api/system/connect', null).map(response => response.json());
   }
 
-  isLogedIn(): boolean{
-    var token = this.mainService.getToken();
-    var session = this.mainService.getSession();
-    if(session && token){
-      this.getStatus(session, token).subscribe( data => {
-          console.log(data);
-          return true;
-      });
+  isLogedIn(): Observable<any>{
+    var obs = Observable.create(observer => {
+      var token = this.mainService.getToken();
+      var session = this.mainService.getSession();
+      if(session && token){
+        this.getStatus(session, token).subscribe( data => {
+            if(data.user.uid && data.user.uid > 0){
+              observer.next(true);
+              observer.complete();
+            }else{
+              observer.next(false);
+              observer.complete();
+            }
+        });
 
-    }else {
-      return false;
-    }
+      }else {
+        observer.next(false);
+        observer.complete();
+      }
+
+    });
+    return obs;
   }
 
 }

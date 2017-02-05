@@ -36,6 +36,10 @@ var UserService = (function () {
             }, function (err) { console.log(err); });
         });
     };
+    UserService.prototype.resetPassword = function (nameOrEmail) {
+        var body = { "name": nameOrEmail };
+        return this.mainService.post('/api/user/request_new_password', body).map(function (response) { return response.json(); });
+    };
     UserService.prototype.logout = function () {
         var _this = this;
         this.mainService.post('/api/user/logout', null).map(function (response) { return response.json(); }).subscribe(function (data) {
@@ -49,17 +53,28 @@ var UserService = (function () {
         return this.mainService.post('/api/system/connect', null).map(function (response) { return response.json(); });
     };
     UserService.prototype.isLogedIn = function () {
-        var token = this.mainService.getToken();
-        var session = this.mainService.getSession();
-        if (session && token) {
-            this.getStatus(session, token).subscribe(function (data) {
-                console.log(data);
-                return true;
-            });
-        }
-        else {
-            return false;
-        }
+        var _this = this;
+        var obs = Observable.create(function (observer) {
+            var token = _this.mainService.getToken();
+            var session = _this.mainService.getSession();
+            if (session && token) {
+                _this.getStatus(session, token).subscribe(function (data) {
+                    if (data.user.uid && data.user.uid > 0) {
+                        observer.next(true);
+                        observer.complete();
+                    }
+                    else {
+                        observer.next(false);
+                        observer.complete();
+                    }
+                });
+            }
+            else {
+                observer.next(false);
+                observer.complete();
+            }
+        });
+        return obs;
     };
     return UserService;
 }());

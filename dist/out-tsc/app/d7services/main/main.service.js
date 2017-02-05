@@ -14,7 +14,7 @@ var MainService = (function () {
     function MainService(http, cookieService) {
         this.http = http;
         this.cookieService = cookieService;
-        this.serviceURL = "http://localhost:100";
+        this.serviceURL = "http://localhost:81";
     }
     MainService.prototype.getURL = function (url) {
         return this.serviceURL + url;

@@ -12,6 +12,8 @@ import { NodeService } from './d7services/node/node.service';
 import { MainService } from './d7services/main/main.service';
 import { AppComponent } from './app.component';
 import { CookieService } from 'angular2-cookie/core';
+import { LoginComponent } from './components/user/login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
 var AppModule = (function () {
     function AppModule() {
     }
@@ -20,12 +22,14 @@ var AppModule = (function () {
 AppModule = __decorate([
     NgModule({
         declarations: [
-            AppComponent
+            AppComponent,
+            LoginComponent
         ],
         imports: [
             BrowserModule,
             FormsModule,
-            HttpModule
+            HttpModule,
+            ReactiveFormsModule
         ],
         providers: [MainService, NodeService, CookieService],
         bootstrap: [AppComponent]

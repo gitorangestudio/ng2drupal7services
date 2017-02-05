@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from "rxjs";
 import { NodeService } from './d7services/node/node.service';
 import { UserService } from './d7services/user/user.service';
 import { MainService } from './d7services/main/main.service';
 import { User } from './d7services/user/user';
 import { FileService } from './d7services/file/file.service';
 import { File } from './d7services/file/file';
+
 
 @Component({
   selector: 'app-root',
@@ -102,7 +104,7 @@ export class AppComponent implements OnInit{
   }
 
   customLogin(event){
-    this.userService.login('root', 'Orange_1234');
+    this.userService.login('root', 'root');
   }
 
 
@@ -111,8 +113,10 @@ export class AppComponent implements OnInit{
   }
 
   status (event){
-    var status = this.userService.isLogedIn();
-    console.log(status);
+    var status = this.userService.isLogedIn().subscribe(result => {
+      console.log(result);
+    });
+
   }
 
   getUser(event){
@@ -153,19 +157,31 @@ export class AppComponent implements OnInit{
     }
 
     uploadFile(event) {
+
+      // var result = Observable.create(function (subscriber) {
+      //   console.log('test');
+      //   subscriber.next(Math.random());
+      //   subscriber.next(Math.random());
+      //   subscriber.next(Math.random());
+      //   subscriber.complete();
+      //   subscriber.next(Math.random());
+      // });
+      // result.subscribe(x => console.log(x));
       var file: File = new File();
-      file.file = event.target.files[0];
+      file.file = event.target.files;
       file.uid = 1;
       file.filename = 'test4.png';
       file.convertFile().subscribe(data => {
         console.log('start');
 
-        console.log(file.file);
+        console.log(data);
         console.log('end');
-        this.fileService.SendCreatedFile(file).subscribe(res => {
-          console.log(res.fid);
-        });
+        // this.fileService.SendCreatedFile(file).subscribe(res => {
+        //   console.log(res.fid);
+        // });
       });
+
+
 
 
     }

@@ -7,14 +7,6 @@ var File = (function () {
         var fileObj = this;
         var obs = new Observable(function (observer) {
             console.log('run');
-            var myReader = new FileReader();
-            myReader.onloadend = function () {
-                console.log('onloadend');
-                fileObj.file = btoa(myReader.result);
-                observer.next();
-                observer.complete();
-            };
-            myReader.readAsBinaryString(fileObj.file);
         });
         return obs;
     };
