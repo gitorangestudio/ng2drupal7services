@@ -39,22 +39,22 @@ var MainService = (function () {
     MainService.prototype.get = function (endpoint, options) {
         var url = this.getURL(endpoint);
         var op = this.getOptions(options);
-        return this.http.get(url, op);
+        return this.http.get(url, op).timeout(5000);
     };
     MainService.prototype.post = function (endpoint, body, options) {
         var url = this.getURL(endpoint);
         var op = this.getOptions(options);
-        return this.http.post(url, body, op);
+        return this.http.post(url, body, op).timeout(5000);
     };
     MainService.prototype.put = function (endpoint, body, options) {
         var url = this.getURL(endpoint);
         var op = this.getOptions(options);
-        return this.http.put(url, body, op);
+        return this.http.put(url, body, op).timeout(5000);
     };
     MainService.prototype.delete = function (endpoint, options) {
         var url = this.getURL(endpoint);
         var op = this.getOptions(options);
-        return this.http.delete(url, op);
+        return this.http.delete(url, op).timeout(5000);
     };
     MainService.prototype.saveCookies = function (token, session_name, sessid) {
         this.cookieService.put('sessid', sessid);
