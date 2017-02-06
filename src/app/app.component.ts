@@ -122,7 +122,9 @@ export class AppComponent implements OnInit{
 
 
   customLogout(event){
-    this.userService.logout();
+    this.userService.logout().subscribe(res => {
+      // should remove cookie
+    });
   }
 
   status (event){
