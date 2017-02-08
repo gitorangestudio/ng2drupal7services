@@ -10,27 +10,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 import { MainService } from '../main/main.service';
+import * as globals from '../globals';
 var TaxonomyService = (function () {
     function TaxonomyService(mainService) {
         this.mainService = mainService;
     }
     TaxonomyService.prototype.getAll = function () {
-        return this.mainService.get('/api/taxonomy_term').map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.get(globals.endpoint + '/taxonomy_term').map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     TaxonomyService.prototype.getVocalbularyTerms = function (vid) {
-        return this.mainService.get('/api/taxonomy_term?parameters[' + vid + ']=').map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.get(globals.endpoint + '/taxonomy_term?parameters[' + vid + ']=').map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     TaxonomyService.prototype.getTermByName = function (name) {
-        return this.mainService.get('/api/taxonomy_term?parameters[name]=' + name).map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.get(globals.endpoint + '/taxonomy_term?parameters[name]=' + name).map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     TaxonomyService.prototype.createTerm = function (term) {
-        return this.mainService.post('/api/taxonomy_term', term).map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.post(globals.endpoint + '/taxonomy_term', term).map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     TaxonomyService.prototype.updateTerm = function (term) {
-        return this.mainService.put('/api/taxonomy_term/' + term.vid, term).map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.put(globals.endpoint + '/taxonomy_term/' + term.vid, term).map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     TaxonomyService.prototype.deleteTerm = function (vid) {
-        return this.mainService.delete('/api/taxonomy_term/' + vid).map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.delete(globals.endpoint + '/taxonomy_term/' + vid).map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     return TaxonomyService;
 }());

@@ -10,27 +10,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 import { MainService } from '../main/main.service';
+import * as globals from '../globals';
 var FileService = (function () {
     function FileService(mainService) {
         this.mainService = mainService;
     }
     FileService.prototype.getAll = function () {
-        return this.mainService.get('/api/file').map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.get(globals.endpoint + '/file').map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     FileService.prototype.getFileById = function (fid) {
-        return this.mainService.get('/api/file/' + fid).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.get(globals.endpoint + '/file/' + fid).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     FileService.prototype.getUserFiles = function (uid) {
-        return this.mainService.get('/api/file?parameters[uid]=' + uid).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.get(globals.endpoint + '/file?parameters[uid]=' + uid).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     FileService.prototype.SendCreatedFile = function (file) {
-        return this.mainService.post('/api/file', file).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.post(globals.endpoint + '/file', file).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     FileService.prototype.editFile = function (file) {
-        return this.mainService.put('/api/file/' + file.fid, file).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.put(globals.endpoint + '/file/' + file.fid, file).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     FileService.prototype.deleteFile = function (fid) {
-        return this.mainService.delete('/api/file/' + fid).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.delete(globals.endpoint + '/file/' + fid).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     return FileService;
 }());

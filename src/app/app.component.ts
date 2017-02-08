@@ -6,7 +6,7 @@ import { MainService } from './d7services/main/main.service';
 import { User } from './d7services/user/user';
 import { FileService } from './d7services/file/file.service';
 import { File } from './d7services/file/file';
-
+import { ViewService } from './d7services/view/view.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +18,7 @@ export class AppComponent implements OnInit{
 
   nodes = [];
 
-  constructor(private nodeService: NodeService, private userService: UserService, private mainService: MainService, private fileService: FileService) {}
+  constructor(private nodeService: NodeService, private userService: UserService, private mainService: MainService, private fileService: FileService, private viewService: ViewService) {}
   title = 'app works!';
 
   ngOnInit() {
@@ -47,6 +47,7 @@ export class AppComponent implements OnInit{
 		// 	console.log(err);
 		// });
 
+    
 
 		// Update Node
 

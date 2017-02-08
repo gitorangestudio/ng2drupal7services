@@ -10,21 +10,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 import { MainService } from '../main/main.service';
+import * as globals from '../globals';
 var UserService = (function () {
     function UserService(mainService) {
         this.mainService = mainService;
     }
     UserService.prototype.getUser = function (userId) {
-        return this.mainService.get('/api/user/' + userId).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.get(globals.endpoint + '/user/' + userId).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     UserService.prototype.createUser = function (user) {
-        return this.mainService.post('/api/user/register', user).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.post(globals.endpoint + '/user/register', user).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     UserService.prototype.deleteUser = function (userId) {
-        return this.mainService.delete('/api/user/' + userId).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.delete(globals.endpoint + '/user/' + userId).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     UserService.prototype.updateUser = function (user) {
-        return this.mainService.put('/api/user/' + user.uid, user).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.put(globals.endpoint + '/user/' + user.uid, user).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     UserService.prototype.login = function (username, password) {
         var _this = this;
@@ -40,11 +41,11 @@ var UserService = (function () {
     };
     UserService.prototype.resetPassword = function (nameOrEmail) {
         var body = { "name": nameOrEmail };
-        return this.mainService.post('/api/user/request_new_password', body).map(function (response) { return response.json(); });
+        return this.mainService.post(globals.endpoint + '/user/request_new_password', body).map(function (response) { return response.json(); });
     };
     UserService.prototype.logout = function () {
         var _this = this;
-        this.mainService.post('/api/user/logout', null).map(function (response) { return response.json(); }).subscribe(function (data) {
+        this.mainService.post(globals.endpoint + '/user/logout', null).map(function (response) { return response.json(); }).subscribe(function (data) {
             _this.mainService.removeCookies();
             console.log('logged out');
         }, function (err) {

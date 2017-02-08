@@ -10,11 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { CookieService } from 'angular2-cookie/core';
+import * as globals from '../globals';
 var MainService = (function () {
     function MainService(http, cookieService) {
         this.http = http;
         this.cookieService = cookieService;
-        this.serviceURL = "http://localhost:81";
+        this.serviceURL = globals.domain;
     }
     MainService.prototype.getURL = function (url) {
         return this.serviceURL + url;

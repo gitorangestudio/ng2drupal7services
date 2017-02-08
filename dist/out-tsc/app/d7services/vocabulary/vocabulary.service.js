@@ -10,24 +10,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 import { MainService } from '../main/main.service';
+import * as globals from '../globals';
 var VocabularyService = (function () {
     function VocabularyService(mainService) {
         this.mainService = mainService;
     }
     VocabularyService.prototype.getVocabularies = function () {
-        return this.mainService.get('/api/taxonomy_vocabulary').map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.get(globals.endpoint + '/taxonomy_vocabulary').map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     VocabularyService.prototype.getVocabulary = function (vid) {
-        return this.mainService.get('/api/taxonomy_vocabulary/' + vid).map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.get(globals.endpoint + '/taxonomy_vocabulary/' + vid).map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     VocabularyService.prototype.createVocabulray = function (body) {
-        return this.mainService.post('/api/taxonomy_vocabulary', body).map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.post(globals.endpoint + '/taxonomy_vocabulary', body).map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     VocabularyService.prototype.updateVocabulray = function (body) {
-        return this.mainService.put('/api/taxonomy_vocabulary/' + body.vid, body).map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.put(globals.endpoint + '/taxonomy_vocabulary/' + body.vid, body).map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     VocabularyService.prototype.deleteVocabulray = function (vid) {
-        return this.mainService.delete('/api/taxonomy_vocabulary/' + vid).map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.delete(globals.endpoint + '/taxonomy_vocabulary/' + vid).map(function (response) { return response.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     return VocabularyService;
 }());

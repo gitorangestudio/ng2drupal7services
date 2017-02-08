@@ -13,12 +13,14 @@ import { UserService } from './d7services/user/user.service';
 import { MainService } from './d7services/main/main.service';
 import { FileService } from './d7services/file/file.service';
 import { File } from './d7services/file/file';
+import { ViewService } from './d7services/view/view.service';
 var AppComponent = (function () {
-    function AppComponent(nodeService, userService, mainService, fileService) {
+    function AppComponent(nodeService, userService, mainService, fileService, viewService) {
         this.nodeService = nodeService;
         this.userService = userService;
         this.mainService = mainService;
         this.fileService = fileService;
+        this.viewService = viewService;
         this.nodes = [];
         this.title = 'app works!';
     }
@@ -48,7 +50,8 @@ var AppComponent = (function () {
         });
     };
     AppComponent.prototype.customLogout = function (event) {
-        this.userService.logout();
+        this.userService.logout().subscribe(function (res) {
+        });
     };
     AppComponent.prototype.status = function (event) {
         var status = this.userService.isLogedIn().subscribe(function (result) {
@@ -109,7 +112,7 @@ AppComponent = __decorate([
         styleUrls: ['./app.component.css'],
         providers: [NodeService, UserService, FileService]
     }),
-    __metadata("design:paramtypes", [NodeService, UserService, MainService, FileService])
+    __metadata("design:paramtypes", [NodeService, UserService, MainService, FileService, ViewService])
 ], AppComponent);
 export { AppComponent };
 //# sourceMappingURL=../../../src/app/app.component.js.map

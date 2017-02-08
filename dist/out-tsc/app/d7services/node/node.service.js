@@ -10,21 +10,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 import { MainService } from '../main/main.service';
+import * as globals from '../globals';
 var NodeService = (function () {
     function NodeService(mainService) {
         this.mainService = mainService;
     }
     NodeService.prototype.getPosts = function () {
-        return this.mainService.get('/api/node').map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.get(globals.endpoint + '/node').map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     NodeService.prototype.createNode = function (body) {
-        return this.mainService.post('/api/node', body).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.post(globals.endpoint + '/node', body).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     NodeService.prototype.UpdateNode = function (body) {
-        return this.mainService.put('/api/node/' + body.nid, body).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.put(globals.endpoint + '/node/' + body.nid, body).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     NodeService.prototype.DeleteNode = function (nid) {
-        return this.mainService.delete('/api/node/' + nid).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
+        return this.mainService.delete(globals.endpoint + '/node/' + nid).map(function (res) { return res.json(); }).catch(function (err) { return Observable.throw(err); });
     };
     return NodeService;
 }());
